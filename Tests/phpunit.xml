@@ -2,7 +2,7 @@
 <testsuites>
 <testsuite name="Testes principais">
 <file>databaseTest.php</file>
-<file>usuariopTest.php</file>
+<file>usuarioTest.php</file>
 </testsuite>
 </testsuites>
 </phpunit>

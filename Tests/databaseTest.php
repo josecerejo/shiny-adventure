@@ -1,11 +1,10 @@
 <?php
 
 
-class databaseTest extends PHPUnit_Framework_TestCase{
+class databaseTest extends PHPUnit_Framework_TestCase {
     private $db;
     
-    private function retornaLoginDoBancoDeDados()
-    {
+    private function retornaLoginDoBancoDeDados() {
         return array(
             'host' => "localhost",
             'user' => "root",
@@ -14,21 +13,23 @@ class databaseTest extends PHPUnit_Framework_TestCase{
         );
     }
     
-    /**
-     * 
-     * @expectedException Exception
-     */
-    public function testDatabaseExceptionConnect() {
+    public function setUp() {
+        parent::setUp();
         $infos = $this->retornaLoginDoBancoDeDados();
-        $this->db = new Database($infos['host'] , "error", $infos['senha'], $infos['database']);
-        $this->fail("Esta mensagem não deve aparecer");
+        $this->db = new Database($infos['host'] , $infos['user'], $infos['password'], $infos['database']);
     }
     
-    public function testDatabaseConnect() {
-        $infos = $this->retornaLoginDoBancoDeDados();
-        $this->db = new Database($infos['host'] , $infos['usuario'], $infos['senha'], $infos['database']);
-        $this->assertTrue($this->db->connected);
+    public function testDatabaQueryWithoutParamns() {
+        $value = $this->db->query("SELECT * FROM test");
+        $this->assertContains('pedro',$value[0]);
     }
+    
+    public function testDatabaQueryWithParamns() {
+        $value = $this->db->query("SELECT * FROM test WHERE nome = ?",'pedro');
+        $this->assertContains('pedro',$value[0]);
+    }
+    
+    
 }
 
 ?>

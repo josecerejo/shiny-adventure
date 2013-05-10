@@ -6,6 +6,7 @@ class Database {
     private $senha;
     private $database;
     private $db;
+    private $sth;
     public $connected;
     
     public function __construct($host,$usuario,$senha,$database){
@@ -20,6 +21,32 @@ class Database {
         
         $this->connected = true;
     }
+    
+    public function query( $sql , $value = null) {
+        if ( empty($value) ) {
+            $this->sth = $this->db->prepare($sql);
+            $this->sth->execute();
+            return $this->sth->fetchAll();
+        } else {
+            if ( isset($value) ) {
+                if (is_array($value)) {
+                    $interator = 1;
+                    foreach ( $value as $v) {
+                        $this->sth->bindValue($interator++, $v);
+                    }
+                    $this->sth->execute();
+                    return $this->sth->fetchAll();
+                } else {
+                    $interator = 1;
+                    $this->sth = $this->db->prepare($sql);
+                    $this->sth->bindValue($interator, $value);
+                    $this->sth->execute();
+                    return $this->sth->fetchAll();
+                }
+            }
+        } 
+    }
+  
     
     
 }

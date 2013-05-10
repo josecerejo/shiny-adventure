@@ -3,21 +3,26 @@
 
 class usuarioTest extends PHPUnit_Framework_TestCase{
    private $usuario;
+   private $db;
    
     private function retornaInformacoesDoUsuario(){
         return array(
-            'id' => 15,
+            'id' => 1,
             'nome' => 'Pedro Henrique',
             'email' => 'teste@teste.com',
-            'senha' => '1020304050'
+            'senha' => '1020304050',
+            'ultimoLogin' => date()
         );
     }
     
     public function setUp(){
-        $this->usuario = new Usuario();
+        parent::setUp();
+        $this->db = new Database('localhost', 'root', '123','shiny_adventure');
+        $this->usuario = new Usuario($this->db);
     }
     
     public function testUsuarioExiste(){
+        echo 'e eeeeee';
         $usuarioInfo = $this->retornaInformacoesDoUsuario();
         $this->assertTrue($this->usuario->existe($usuarioInfo['id']));
     }
