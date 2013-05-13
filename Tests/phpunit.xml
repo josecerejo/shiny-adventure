@@ -1,8 +1,7 @@
 <phpunit bootstrap="bootstrap.php" colors="true">
 <testsuites>
 <testsuite name="Testes principais">
-<file>databaseTest.php</file>
-<file>usuarioTest.php</file>
+<directory suffix=".php">./</directory>>
 </testsuite>
 </testsuites>
 </phpunit>

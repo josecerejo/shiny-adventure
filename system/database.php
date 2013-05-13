@@ -25,28 +25,39 @@ class Database {
     public function query( $sql , $value = null) {
         if ( empty($value) ) {
             $this->sth = $this->db->prepare($sql);
-            $this->sth->execute();
-            return $this->sth->fetchAll();
+            if  ( $this->sth->execute() )
+                return $this->sth->fetchAll();
+            else
+                return false;
         } else {
+            $this->sth = $this->db->prepare($sql);
             if ( isset($value) ) {
                 if (is_array($value)) {
                     $interator = 1;
                     foreach ( $value as $v) {
                         $this->sth->bindValue($interator++, $v);
                     }
-                    $this->sth->execute();
-                    return $this->sth->fetchAll();
+                    if  ( $this->sth->execute() )
+                        return $this->sth->fetchAll();
+                    else
+                        return false;
                 } else {
                     $interator = 1;
                     $this->sth = $this->db->prepare($sql);
                     $this->sth->bindValue($interator, $value);
-                    $this->sth->execute();
-                    return $this->sth->fetchAll();
+                    if  ( $this->sth->execute() )
+                        return $this->sth->fetchAll();
+                    else
+                        return false;
                 }
             }
         } 
     }
   
+    public function lastInsertID() {
+        $retorno = $this->query("SELECT LAST_INSERT_ID();");
+        return $retorno[0][0];
+    }
     
     
 }

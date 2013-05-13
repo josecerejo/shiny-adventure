@@ -4,6 +4,10 @@
 class databaseTest extends PHPUnit_Framework_TestCase {
     private $db;
     
+    /**
+    * @backupGlobals disabled
+    * @backupStaticAttributes disabled
+    */
     private function retornaLoginDoBancoDeDados() {
         return array(
             'host' => "localhost",
@@ -16,6 +20,7 @@ class databaseTest extends PHPUnit_Framework_TestCase {
     public function setUp() {
         parent::setUp();
         $infos = $this->retornaLoginDoBancoDeDados();
+        
         $this->db = new Database($infos['host'] , $infos['user'], $infos['password'], $infos['database']);
     }
     
